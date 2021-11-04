@@ -3,7 +3,7 @@
 音声書き起こしWebアプリケーションです。
 
 # DEMO
-![アプリ画像](https://github.com/hicrafter-d/amivoice_app/blob/main/e.png)
+![アプリ画像](https://github.com/hicrafter-d/amivoice_app/blob/main/e2.png)
 
 # Requirement
 動作確認ブラウザ：Chrome
