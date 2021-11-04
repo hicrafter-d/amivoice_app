@@ -1,0 +1,463 @@
+/* 設定詳細を開くボタン */
+
+.triangle1{
+  width: 15px;
+  height: 15px;
+  border: 3px solid;
+  border-color: #565656 #565656 transparent transparent;
+  background: #ffffff;
+  transform: rotate(-45deg);
+  float: left;
+  margin-left: 5px;
+  margin-top: 45px;
+  margin-bottom: 0px;
+  caret-color: transparent;
+}
+    
+.triangle2{
+  width: 15px;
+  height: 15px;
+  border: 3px solid;
+  border-color:  transparent transparent #565656 #565656;
+  background: #ffffff;
+  transform: rotate(-45deg);
+  float: left;
+  margin-left: 5px;
+  margin-top: 35px;
+  caret-color: transparent;
+}
+
+
+
+
+#jizen {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 3px;
+  margin-left: 30px;
+  padding: 5px;
+  padding-left: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  background:rgb(95, 51, 0);
+  align-items:center;
+}
+
+
+#moji01 {
+color: white;
+font-size   : 10px;      
+margin-right: 5px;
+}
+
+
+/* 設定ボタン */
+.btn-devset {
+  border-radius: 10px;
+  max-width: 50px;
+  height   : 35px;
+  padding: 1px 3px;
+  margin:  0px 5px; 
+  margin-left: 5px;
+  font-size   : 10px;                /* 文字サイズ         */
+  text-align: center;
+}
+.btn-devset:active {
+  /*ボタンを押したとき*/
+  -webkit-transform: translateY(2px);
+  transform: translateY(2px);/*下に動く*/
+  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.2);/*影を小さく*/
+  border-bottom: none;
+}
+
+
+
+/* 録画画面 */
+.gum-local {
+  width: 70px; 
+  height: 35px; 
+  border: 1px solid gray;
+  background:rgb(255, 255, 255);
+}
+
+
+
+
+#set2 {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 3px;
+  margin-left: 30px;
+  padding: 5px;
+  padding-left: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  background:rgb(17, 148, 255);
+  align-items:center;
+}
+
+
+/* 書き起こし領域線 */
+.ellipse{
+  border-radius: 10px;
+  border: 1px dashed;
+  padding: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+
+/* 書き起こし開始ボタン */
+.btn-estart1 {
+  display: inline-block;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1px 3px;
+  margin:  2px 5px; 
+  text-decoration: none;
+  background: #e6ec88;/*ボタン色*/
+  color: rgb(0, 0, 0);
+  border-radius: 10px;
+  max-width   : 60px;
+  min-width   : 60px;
+  font-size   : 10px;                /* 文字サイズ         */
+  font-weight : bold;                /* 太字              */
+  border: none;
+}
+.btn-estart1:active {
+  /*ボタンを押したとき*/
+  -webkit-transform: translateY(2px);
+  transform: translateY(2px);/*下に動く*/
+  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.2);/*影を小さく*/
+  border-bottom: none;
+}
+
+
+
+/* マイクのON OFF ボタン */
+.btn-Mic {
+  box-sizing     : border-box;          /* 枠線を含んだサイズ */
+  text-align     : center;              /* 文字位置は中央     */
+  border         : 2px solid #ccc;    /* 枠線(一旦四方向)   */
+  border-radius  : 30px;                 /* 角丸              */
+  height         : 30px;                /* ボタンの高さ       */
+  min-width      : 50px;                /* ボタンの幅　       */
+  max-width      : 50px;                /* ボタンの幅　       */
+  font-size      : 7px;                /* 文字サイズ         */
+  font-weight    : bold;                /* 太字              */
+  background     : #eee;              /* 背景色            */
+  box-shadow     : 1px 1px 2px #888;  /* 影付け            */
+  transition     : .3s;                 /* ゆっくり変化       */
+  margin-left    : 3px;
+  margin-top     : 2px;
+}
+.btn-Mic:active {
+  -webkit-transform: translateY(2px);
+  transform: translateY(2px);/*下に動く*/
+  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.2);/*影を小さく*/
+  border-bottom: none;
+}
+
+
+
+
+/* 挿入 ボタン */
+.btn-ins {
+  box-sizing     : border-box;          /* 枠線を含んだサイズ */
+  text-align     : center;              /* 文字位置は中央     */
+  border         : 2px solid #ccc;    /* 枠線(一旦四方向)   */
+  border-radius  : 40px;                 /* 角丸              */
+  height         : 37px;                /* ボタンの高さ       */
+  min-width      : 37px;                /* ボタンの幅　       */
+  max-width      : 37px;                /* ボタンの幅　       */
+  font-size      : 10px;                /* 文字サイズ         */
+  font-weight    : bold;                /* 太字              */
+  background     : #eee;              /* 背景色            */
+  box-shadow     : 1px 1px 2px #888;  /* 影付け            */
+  transition     : .1s;                 /* ゆっくり変化       */
+  margin         : 6px;
+}
+.btn-ins:active {
+  -webkit-transform: translateY(2px);
+  transform: translateY(2px);/*下に動く*/
+  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.2);/*影を小さく*/
+  border-bottom: none;
+}
+
+
+
+
+/* 録画開始 ボタン */
+.btn-RecB {
+  box-sizing     : border-box;          /* 枠線を含んだサイズ */
+  text-align     : center;              /* 文字位置は中央     */
+  border         : 2px solid #ccc;    /* 枠線(一旦四方向)   */
+  border-radius  : 40px;                 /* 角丸              */
+  height         : 40px;                /* ボタンの高さ       */
+  min-width      : 40px;                /* ボタンの幅　       */
+  max-width      : 40px;                /* ボタンの幅　       */
+  font-size      : 5px;                /* 文字サイズ         */
+  background     : #eee;              /* 背景色            */
+  box-shadow     : 1px 1px 2px #888;  /* 影付け            */
+  transition     : .1s;                 /* ゆっくり変化       */
+  margin         : 6px;
+}
+.btn-RecB:active {
+  -webkit-transform: translateY(2px);
+  transform: translateY(2px);/*下に動く*/
+  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.2);/*影を小さく*/
+  border-bottom: none;
+}
+
+
+
+/* 保存領域線 */
+.ellipse2{
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: 0;
+  margin-left: auto;
+}
+
+
+
+/* 動画保存ボタン */
+.btn-square-shadow {
+  display: inline-block;
+  padding: 1px 3px;
+  text-decoration: none;
+  background: #70c268;/*ボタン色*/
+  color: rgb(241, 241, 241);
+  border-bottom: solid 4px #54805e;
+  border-radius: 3px;
+  margin         : 6px;
+}
+.btn-square-shadow:active {
+  /*ボタンを押したとき*/
+  -webkit-transform: translateY(2px);
+  transform: translateY(2px);/*下に動く*/
+  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.2);/*影を小さく*/
+  border-bottom: none;
+}
+
+
+/* Text保存ボタン */
+.btn2-square-shadow {
+  display: inline-block;
+  padding: 1px 3px;
+  text-decoration: none;
+  background: #70c268;/*ボタン色*/
+  color: rgb(241, 241, 241);
+  border-bottom: solid 4px #54805e;
+  border-radius: 3px;
+  margin         : 6px;
+}
+.btn2-square-shadow:active {
+  /*ボタンを押したとき*/
+  -webkit-transform: translateY(2px);
+  transform: translateY(2px);/*下に動く*/
+  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.2);/*影を小さく*/
+  border-bottom: none;
+}
+
+
+
+
+
+ 
+/* 本体のCSS */
+table {
+  table-layout: fixed;
+  background: #e4e3e3a8;
+}
+
+td {
+  font-size: 14px; 
+  border: 1px solid #000;
+  color: rgb(0, 0, 0);
+  background: rgb(255, 255, 255);
+}
+
+.text {
+  font-size: 14px; 
+  font-family: inconsolata, consolas, monospace; 
+  width: 100%; 
+  height: 21px; 
+  margin: 0; 
+  padding: 2px; 
+  border: none; 
+  box-sizing: border-box;
+}
+#messages div {
+  padding: 3px 0;
+  font-family: monospace;
+}
+#issueButton {
+  height: 70px;
+  width: 130px;
+  vertical-align: top;
+  cursor: pointer;
+}
+#resumePauseButton {
+  height: 70px;
+  width: 130px;
+  vertical-align: top;
+  cursor: pointer;
+}
+.recognitionResult {
+  height: 15px;
+  padding: 1px;
+}
+.recognitionResultText {
+  font-size: 15px;
+}
+.recognitionResultInfo {
+  font-size: 15px;
+  color: lightgrey;
+  float: right;
+}
+.sending {
+  color: rgb(0, 0, 0);
+  background: rgb(255, 201, 239);
+}
+.supplement {
+  font-size: 12px;
+}
+.box01{
+    min-height: 400px;
+    max-height: 400px;
+    width: auto;
+    overflow-y: scroll;
+    padding: 1em 1em;
+    margin: 0 2px;
+    margin-bottom:10px;
+    background: #f4f4f4;
+    border-left: solid 6px #a4fafd;
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.33);
+}
+.box01 p {
+    width: auto;
+    margin: 0; 
+    padding: 0;
+}
+
+#RecB {
+  background: #f4f4f4;
+  color: black;
+  border:1px solid gray;
+}
+
+#RecB:hover{
+  background:rgb(223, 223, 223);
+}
+.bar {
+  width:100%;
+  position: relative;
+}
+#version {
+  font-size: 10px;
+  position: absolute;
+  right: 0;
+  color:rgb(0, 0, 0);
+  top: -10px;
+}
+
+
+
+
+/* サウンドクリップのCSS */
+.sound-clips {
+  flex: 1;
+  overflow: auto;
+  margin: 2px 2px;
+}
+
+article {
+  display: block;
+}
+
+.clip {
+  padding-bottom: 0.5rem;
+}
+
+audio {
+  width: 100%;
+ 
+  margin: 2px auto 0.5rem;
+}
+
+.clip p {
+  display: inline-block;
+  font-size: 15px;
+  padding-top: 3px;
+  margin: 0px;
+
+}
+
+.clip button {
+  font-size: 1rem;
+  float: right;
+}
+
+button.delete {
+  background: rgb(255, 142, 142);
+  padding: 0.1rem 0.2rem;
+  font-size: 0.8rem;
+  border:1px;
+  border-color: gray;
+}
+
+
+label {
+  font-size: 3rem;
+  position: absolute;
+  top: 2px;
+  right: 3px;
+  z-index: 5;
+  cursor: pointer;
+  background-color: black;
+  border-radius: 10px;
+}
+
+
+
+
+
+
+
+
+
+/* フレックスボックスのCSS */
+.main-content {
+  width: 100%;
+  margin: 0 0;
+}
+.main1 {
+  min-width: 100%;
+  background: #ffffff;
+  align-items: center;
+  justify-content: left;
+}
+.main2 {
+  min-height: 400px;
+  max-height: 400px;
+  width: 73%;
+  background: #ffffff;
+  display: inline-block;
+}
+.aside1 {
+  min-height: 440px;
+  max-height: 440px;
+  width: 25%;
+  background: #ffffff;
+  display: inline-block;
+  overflow-y: scroll;
+}
+.spacer {
+  width: 100%;
+}
