@@ -179,7 +179,7 @@ const soundClips = document.querySelector('.sound-clips');
 (function() {
    // <!--
   function log_(n, s) {
-    console.log(n + s);
+  //  console.log(n + s);
     var color = "";
     if (s.lastIndexOf("EVENT: ", 0) != -1) {
     //   color = "green";
@@ -446,7 +446,7 @@ const soundClips = document.querySelector('.sound-clips');
     //　★★追加
     estart1.style.background = '#e6ec88';
     estart1.textContent = "書き起こし開始";
-
+    tm2 = tm2 + 1;
   }
 
   // 音声認識サーバへの音声データの供給開始処理が開始した時に呼び出されます。
@@ -465,6 +465,7 @@ const soundClips = document.querySelector('.sound-clips');
     estart1.style.background = 'pink';
     estart1.style.border = '1px solid gray';
     estart1.textContent = "書き起こし停止";
+    tm2 = tm2 + 1;
   }
 
   // 音声認識サーバへの音声データの供給終了処理が開始した時に呼び出されます。

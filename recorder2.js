@@ -308,7 +308,7 @@ function jyunbiButton(){
 
 
 function Estart() {
-  if(tm2 ++ % 2 ==0){
+  if(tm2 % 2 ==0){
     issueButton.click();
     resumePauseButton.click();
     //
@@ -319,16 +319,18 @@ function Estart() {
     //
     //console.log('mixX-Track:', mixX.getTracks());
     MRecord01.click();
-    Recording();
+    //Recording();
     estart1.style.background = 'pink';
     estart1.style.border = '1px solid gray';
     estart1.textContent = "書き起こし停止";
+    console.log('E-tm2:', tm2);
   }else{
     estart1.style.background = '#e6ec88';
     estart1.textContent = "書き起こし開始";
     resumePauseButton.click();
     Mstop01.click();
-    Recording();
+    console.log('E-tm2:', tm2);
+    //Recording();
     //
     //stopRecording();
     //RecB.style.background = '#f4f4f4';

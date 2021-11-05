@@ -446,14 +446,14 @@ label {
 .main2 {
   min-height: 400px;
   max-height: 400px;
-  width: 73%;
+  width: 58%;
   background: #ffffff;
   display: inline-block;
 }
 .aside1 {
   min-height: 440px;
   max-height: 440px;
-  width: 25%;
+  width: 40%;
   background: #ffffff;
   display: inline-block;
   overflow-y: scroll;
