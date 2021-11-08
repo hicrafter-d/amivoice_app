@@ -173,8 +173,8 @@ margin-right: 5px;
   border         : 2px solid #ccc;    /* 枠線(一旦四方向)   */
   border-radius  : 40px;                 /* 角丸              */
   height         : 37px;                /* ボタンの高さ       */
-  min-width      : 37px;                /* ボタンの幅　       */
-  max-width      : 37px;                /* ボタンの幅　       */
+  min-width      : 60px;                /* ボタンの幅　       */
+  max-width      : 60px;                /* ボタンの幅　       */
   font-size      : 10px;                /* 文字サイズ         */
   font-weight    : bold;                /* 太字              */
   background     : #eee;              /* 背景色            */

@@ -323,13 +323,13 @@ function Estart() {
     estart1.style.background = 'pink';
     estart1.style.border = '1px solid gray';
     estart1.textContent = "書き起こし停止";
-    console.log('E-tm2:', tm2);
+    //console.log('E-tm2:', tm2);
   }else{
     estart1.style.background = '#e6ec88';
     estart1.textContent = "書き起こし開始";
     resumePauseButton.click();
     Mstop01.click();
-    console.log('E-tm2:', tm2);
+    //console.log('E-tm2:', tm2);
     //Recording();
     //
     //stopRecording();
@@ -371,22 +371,12 @@ function Recording(){
 
 
 function insert(){
+  karam.insertAdjacentHTML('beforeend', '<font color="red">' + buffer + '</font>' + '<br>' );
   var today = new Date();
-  karam.insertAdjacentHTML('beforeend', "["+('0' +today.getMinutes()).slice(-2) + ":" + ('0' +today.getSeconds()).slice(-2)+"]" + "<br>");
+  karam.insertAdjacentHTML('beforeend', "["+('0' +today.getMinutes()).slice(-2) + ":" + ('0' +today.getSeconds()).slice(-2)+"]" + "<br>" + "<br>");
   karam.scrollTo(0, karam.scrollHeight);
   Mstop01.click();
   MRecord01.click();
-}
-
-function sepa(){
-  mix3miconoff01 = 1;
-  setTimeout(function () {
-    gousei();
-  }, 100);
-  setTimeout(function () {
-    mix3miconoff01 = 0;
-    gousei();
-  }, 500);
 }
 
 
@@ -396,10 +386,20 @@ function DownT() {
   const a = document.createElement("a");
   document.body.appendChild(a);
   var today = new Date();
-  a.download = today.getFullYear() + ('0' + (today.getMonth()+1)).slice(-2) +  ('0'+today.getDate()).slice(-2) +'_'+ ('0' +today.getHours()).slice(-2) + ('0' +today.getMinutes()).slice(-2) + 'text' + '.txt';  // ファイル名
+  a.download = today.getFullYear() + ('0' + (today.getMonth()+1)).slice(-2) +  ('0'+today.getDate()).slice(-2) +'_'+ ('0' +today.getHours()).slice(-2) + ('0' +today.getMinutes()).slice(-2) + '.txt';  // ファイル名
   a.href = turl;
   a.click();
   a.remove();
   URL.revokeObjectURL(turl);
 }
+
+
+
+document.addEventListener("keydown", function(e){
+  if(e.altKey === true){
+    if(e.key === '1') {
+      insert();
+    };
+  };
+});
 
