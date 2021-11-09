@@ -8,6 +8,12 @@ var tm4 = 0;
 var miconoff01 =0;
 var mix3miconoff01 =0;
 
+
+// マイクのボリューム可視化
+var MMmediaStreamSource
+var MMmeter
+
+
 ///////////////////////////////////////////////////////////////////////
 //////➀マイクからの録音　///////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
@@ -27,6 +33,19 @@ function Mstart() {
       var micaudioTracks = stream.getAudioTracks()[0];
       mixStream.addTrack(micaudioTracks);  
       ///////////////////////////////////////////////
+
+
+      //////////////////////////////////   
+      //////////////////////////////////    
+      var MMaudioContext = new AudioContext;
+      MMmediaStreamSource = MMaudioContext.createMediaStreamSource(mixStream);
+      MMmeter = createAudioMeter(MMaudioContext);
+      MMmediaStreamSource.connect(MMmeter);
+
+      Mlabel.innerText = micaudioTracks.label; 
+      //////////////////////////////////    
+      //////////////////////////////////    
+
     }
     let onError = function(err) {
       console.log('The following error occured: ' + err);
@@ -38,6 +57,70 @@ function Mstart() {
   Gset();
   jyunbiButton();
 }
+
+//////マイクの音量可視化　///////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+function createAudioMeter(MMaudioContext, clipLevel, averaging, clipLag) {
+  // メーターの生成
+  const processor = MMaudioContext.createScriptProcessor(512)
+  processor.onaudioprocess = volumeAudioProcess
+  processor.clipping = false
+  processor.lastClip = 0
+  processor.volume = 0
+  processor.clipLevel = clipLevel || 0.98
+  processor.averaging = averaging || 0.95
+  processor.clipLag = clipLag || 750
+  processor.connect(MMaudioContext.destination)
+
+  // クリップチェック時に呼ばれる
+  processor.checkClipping = function() {
+    if (!this.clipping) {
+      return false
+    }
+    if ((this.lastClip + this.clipLag) < window.performance.now()) {
+      this.clipping = false
+    }
+    return this.clipping
+  }
+
+  // シャットダウン時に呼ばれる
+  processor.shutdown = function() {
+    this.disconnect()
+    this.onaudioprocess = null
+  }
+
+  return processor
+}
+
+// オーディオ処理時に呼ばれる
+function volumeAudioProcess(event) {
+  const buf = event.inputBuffer.getChannelData(0)
+  const bufLength = buf.length
+  let sum = 0
+  let x
+
+  // 平均ボリュームの計算
+  for (var i = 0; i < bufLength; i++) {
+    x = buf[i]
+    if (Math.abs(x) >= this.clipLevel) {
+        this.clipping = true
+        this.lastClip = window.performance.now()
+    }
+    sum += x * x
+  }
+  const rms = Math.sqrt(sum / bufLength)
+  this.volume = Math.max(rms, this.volume * this.averaging)
+ 
+  // ボリュームの表示
+  // output.innerHTML = 'ボリューム: '+(this.volume*100).toFixed(4)
+
+  //onLevelChange();
+  canvasContext.clearRect(0,0,400,100);
+  canvasContext.fillStyle = "green"
+  canvasContext.fillRect(0, 30, this.volume * 400 , 70);
+}
+
+
 
 
 
@@ -300,6 +383,8 @@ function jyunbiButton(){
   if(tm4 ++ % 2 ==0){
     devset.style.background = 'pink';
     devset.textContent = "準備OK!";
+    var today = new Date();
+    karam.insertAdjacentHTML('beforeend', "会議名：<br>日時："+today.getFullYear()+"年"+('0' +today.getMonth()).slice(-2) + "月" + ('0' +today.getDay()).slice(-2)+"日"+('0' +today.getHours()).slice(-2) + "時" + ('0' +today.getMinutes()).slice(-2)+ "分～<br>" + "<br>"+"■議事メモ<br>");  
   }else{
     devset.style.background = '#f4f4f4';
     devset.textContent = "事前準備";

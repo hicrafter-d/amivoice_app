@@ -82,8 +82,22 @@ margin-right: 5px;
   background:rgb(255, 255, 255);
 }
 
+canvas {
+  width: 70px; 
+  height: 20px; 
+  border: 1px solid gray;
+  background:rgb(255, 255, 255);
+  margin-top: -16px;
+}
 
-
+#Mlabel {
+  color         : white;
+  font-size     : 10px   ;
+  margin-top    :  0px   ;
+  margin-bottom :  0px   ;
+  padding-top   : 30px   ;
+  margin-left   : -75px  ;
+}
 
 #set2 {
   display: flex;

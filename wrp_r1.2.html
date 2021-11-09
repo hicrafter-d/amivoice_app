@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kakiokoshi</title>
+<script type="text/javascript" src="recorder.js"></script>
+<script type="text/javascript" src="wrp.js"></script>
+
+<!--  ★★録画、録音のためのjavascript -->
+<script type="text/javascript" src="recorder2.js"></script>
+<link href="app.css" rel="stylesheet" type="text/css">
+<!--  ------------------------------ -->
+<!--  ★★設定詳細を開くためのjQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script type="text/javascript">
+  $(function(){
+    $("#btn17").click(function(){
+      if ($("#Aconfig").is(":hidden")){
+          $("#Aconfig").slideDown("fast");
+          $(this).removeClass("triangle2");
+          $(this).addClass("triangle1");
+      }
+      else{
+          $("#Aconfig").slideUp("fast");
+          $(this).removeClass("triangle1");
+          $(this).addClass("triangle2");
+      }
+    });
+  });
+</script>
+<!--  ------------------------------------- -->
+</head>
+
+
+
+
+
+
+<body lang="ja">
+
+<div id="jizen">
+    <span style="max-width: 70px; min-width: 70px; color:white;">事前設定</span>
+    <span style="color:white;">：</span>
+    <button class="btn-devset" id="devset" type="button" onclick="Mstart()">準備</button>&nbsp; 
+    <div id="moji01">
+        ➀ マイク音許可<br>
+        ➁ システム音許可<br>
+        ➂ 録画画面選択
+    </div>
+    <video id="gum-local" autoplay playsinline muted class="gum-local"></video>
+    &nbsp;<canvas id="Mmeter"></canvas>
+    &nbsp;<p id="Mlabel"></p>
+</div>
+
+
+
+<button class="triangle2" id="btn17"></button>
+<div id="set2">
+    <span style="max-width: 70px; min-width: 70px; color:white">操作</span>
+    <span style="color:white;">：</span>
+    <div class="ellipse">
+     <button class="btn-estart1" onclick="Estart()" id="estart1" type="button">書き起こし開始</button>
+     <button class="btn-Mic" onclick="Miconoff()" id="DevMic" type="button">マイクOFF</button>
+     <button class="btn-ins" onclick="insert()" id="insB" type="button">挿入<br>(Alt＋1)</button>
+    </div>
+    <button class="btn-RecB" onclick="Recording()" id="RecB" type="button">録画<br>開始</button>
+    &nbsp;
+   <div class="ellipse2">
+    <a href="#" class="btn-square-shadow" id="downloadlink">
+     <table style="margin:0px; padding:0px; background: transparent; border:none;">
+      <tr style="margin:0px; padding:0px; background: transparent;  border:none;">
+       <td style="margin:0px; padding:0px; background: transparent; border:none;"><img src="download02.png" style="height:17px"></td>
+       <td style="margin:0px; padding:0px; background: transparent; border:none; min-width: 35px;">動画保存</td>
+      </tr>
+     </table>
+    </a>
+    <a href="#" class="btn2-square-shadow" onclick="DownT()" id="downT">
+     <table style="margin:0px; padding:0px; background: transparent; border:none;">
+      <tr style="margin:0px; padding:0px; background: transparent;  border:none;">
+        <td style="margin:0px; padding:0px; background: transparent; border:none;"><img src="download02.png" style="height:17px"></td>
+        <td style="margin:0px; padding:0px; background: transparent; border:none;">Text保存</td>
+      </tr>
+     </table>
+    </a>
+   </div>
+
+</div>
+
+<form hidden id="Aconfig">
+ <table border="0" width="100%" cellspacing="3" cellpadding="0">
+  <tr><td colspan="2" width="240">&nbsp;サーバ URL</td><td><input type="text" class="text" id="serverURL" spellcheck="false" tabindex="3"></td></tr>
+  <tr><td colspan="2" width="240">&nbsp;接続エンジン名</td><td><input type="text" class="text grammarFileNames" spellcheck="false" tabindex="3"></td></tr>
+  <tr><td colspan="2" width="240">&nbsp;サービス ID</td><td><input type="text" class="text" id="sid" spellcheck="false" tabindex="1"></td></tr>
+  <tr><td colspan="2" width="240">&nbsp;サービスパスワード</td><td><input type="password" class="text" id="spw" spellcheck="false" autocomplete="on" tabindex="1"></td></tr>
+  <tr><td colspan="2" width="240">&nbsp;プロファイル ID</td><td><input type="text" class="text" id="profileId" spellcheck="false" tabindex="3"></td></tr>
+  <tr><td colspan="2" width="240">&nbsp;APPKEY</td><td><input type="text" class="text" id="authorization" spellcheck="false" tabindex="3"></td></tr>
+
+  <tr><td colspan="2" width="240"></td><td><span class="toggle_issue_options">。</span><span class="toggle_options">。</span></td></tr>
+  <tr><td colspan="2" width="240">&nbsp;ワンタイムAppKey発行API URL</td><td><input type="text" class="text" id="issuerURL" spellcheck="false" tabindex="1"></td></tr>
+  <tr class="issue_options" ><td colspan="2" width="240">&nbsp;有効期限</td><td><input type="text" class="text" id="epi" spellcheck="false" tabindex="1"></td></tr>  
+  <tr class="options"><td colspan="2" width="240">&nbsp;モード</td><td><input type="text" class="text" id="mode" spellcheck="false" tabindex="3"></td></tr>
+  <tr class="options"><td colspan="2" width="240">&nbsp;プロファイル単語</td><td><input type="text" class="text" id="profileWords" spellcheck="false" tabindex="3"></td></tr>
+  <tr class="options"><td colspan="2" width="240">&nbsp;セグメンタタイプ</td><td><input type="text" class="text" id="segmenterType" spellcheck="false" tabindex="3"></td></tr>
+  <tr class="options"><td colspan="2" width="240">&nbsp;セグメンタプロパティ文字列</td><td><input type="text" class="text" id="segmenterProperties" spellcheck="false" tabindex="3"></td></tr>
+  <tr class="options"><td colspan="2" width="240">&nbsp;拡張情報</td><td><input type="text" class="text" id="extension" spellcheck="false" tabindex="3"></td></tr>
+  <tr class="options"><td colspan="2" width="240">&nbsp;<font color="silver">音声データ形式</font></td><td><input type="text" class="text" id="codec" spellcheck="false" tabindex="3" readonly></td></tr>
+  <tr class="options"><td colspan="2" width="240">&nbsp;認識結果タイプ</td><td><input type="text" class="text" id="resultType" spellcheck="false" tabindex="3"></td></tr>
+  <tr class="options"><td colspan="2" width="240">&nbsp;認識中イベント発行間隔 <br>(単位：ミリ秒)</td><td><input type="text" class="text" id="resultUpdatedInterval" spellcheck="false" tabindex="3"></td></tr>
+  <tr class="options"><td colspan="2" width="240">&nbsp;無発話許容時間 (単位：ミリ秒)</td><td><input type="text" class="text" id="checkIntervalTime" spellcheck="false" tabindex="3"></td></tr>
+  <tr class="options"><td colspan="2" width="240">&nbsp;連続録音可能時間 (単位: ミリ秒)</td><td><input type="text" class="text" id="maxRecordingTime" spellcheck="false" tabindex="3"></td></tr>
+ </table>
+</form>
+
+<!--  書き起こし結果表示　-->
+<table>
+  <tr class="recognitionResult">
+    <div contenteditable="true" id="skaram" style="min-height: 70px; max-height: 70px; overflow-y: scroll; border:1px solid black">
+      <span class="recognitionResultText"></span><span class="recognitionResultInfo"></span>
+    </div>
+  </tr>
+</table>
+<!--  ----------------  -->
+
+<!--  ★★ 書き起こし文章の編集欄　+ 録画対象画面 -->
+<div class="main-content">
+    <main class="main2" id="mainbox">
+        <div contenteditable="true" id="karam" class="box01"></div>
+    </main>
+    <aside class="aside1" id="asidebox"> 
+      <section class="sound-clips"></section>
+    </aside>
+    <div class="spacer"></div>
+    <div id="box03">
+      <video id="playback_video" controls preload="auto" style="width: 480px; height: 280px; border: 1px solid black;"></video>
+        <button hidden id="issueButton" tabindex="4">認証キーの取得</button>
+        <button hidden id="resumePauseButton" tabindex="5">書き起こし開始</button>
+        <button hidden class="Mrecord" id="MRecord01">Record</button>
+        <button hidden class="stop" id="Mstop01">Stop</button>
+    </div>
+    <div class="spacer"></div>
+    <div hidden id="messages"></div>
+    <div class="spacer"></div>
+    <div class="bar"><hr><div id="version"></div></div>           
+</div>
+<!--  --------------------------------------  -->
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+///★★　////////////////////////////////////////////////////
+// 音声認識結果をつなげて配列として保存するための枠を作成
+var recognitionResultTextArray =[];
+// カラムを一番下で表示
+var skaram = document.getElementById("skaram");
+var karam = document.getElementById("karam");
+var buffer;
+// 録画関連の準備 
+const Video2 =  document.getElementById('gum-local');
+var RecB = document.getElementById("RecB");
+const anchor = document.getElementById('downloadlink');
+const mixStream = new MediaStream();
+var mixX = new MediaStream();
+const playbackVideo =  document.getElementById('playback_video');
+//playbackVideo.volume = 0.5;
+
+// 音声合成関連
+const Mrecord = document.querySelector('.Mrecord');
+const stop = document.querySelector('.stop');
+const soundClips = document.querySelector('.sound-clips');
+
+// マイクの音量可視化
+var canvasContext = document.getElementById( "Mmeter" ).getContext("2d");
+/////////////////////////////////////////////////////////////
+
+
+
+(function() {
+   // <!--
+  function log_(n, s) {
+    console.log(n + s);
+    var color = "";
+    if (s.lastIndexOf("EVENT: ", 0) != -1) {
+    //   color = "green";
+    } else
+    if (s.lastIndexOf("INFO: ", 0) != -1) {
+    //   color = "blue";
+    } else
+    if (s.lastIndexOf("ERROR: ", 0) != -1) {
+      color = "red";
+    } else {
+      color = "black";
+    }
+    if (color) {
+      if (messages.childNodes.length >= 10) {
+        messages.removeChild(messages.lastChild);
+      }
+      messages.insertBefore(document.createElement("div"), messages.firstChild).innerHTML = n + s;
+      messages.firstChild.style.borderBottom = "1px #ddd solid";
+      messages.firstChild.style.color = color;
+    }
+  }
+
+
+  function sanitize_(s) {
+    return s.replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/'/g, '&apos;')
+            .replace(/"/g, '&quot;');
+  }
+  // var buffer;
+  var bufferEnding;
+  function append_(item) {
+    if (item.length == 0) {
+      return;
+    }
+    if (item == "<->") {
+      return;
+    }
+    var itemState = 0;
+    for (var i = 0; i < item.length; i++) {
+      var c = item.charCodeAt(i);
+      if (itemState == 0) {
+        if (c == 0x005F) {
+          break;
+        } else
+        if (c == 0x4E00 || c == 0x4E8C || c == 0x4E09 || c == 0x56DB || c == 0x4E94 || c == 0x516D || c == 0x4E03 || c == 0x516B || c == 0x4E5D) { // '一'～'九'
+          itemState = 1;
+        } else
+        if (c == 0x5341) { // '十'
+          itemState = 2;
+        } else
+        if (c == 0x767E) { // '百'
+          itemState = 4;
+        } else
+        if (c == 0x5343) { // '千'
+          itemState = 8;
+        } else {
+          break;
+        }
+      } else {
+        if (c == 0x005F) {
+          item = item.substr(0, i) + item.substr(i + 1);
+          break;
+        } else
+        if (c == 0x4E00 || c == 0x4E8C || c == 0x4E09 || c == 0x56DB || c == 0x4E94 || c == 0x516D || c == 0x4E03 || c == 0x516B || c == 0x4E5D) { // '一'～'九'
+          if ((itemState & 1) != 0) {
+            break;
+          } else {
+            itemState |= 1;
+          }
+        } else
+        if (c == 0x5341) { // '十'
+          if ((itemState & 2) != 0) {
+            break;
+          } else {
+            itemState |= 2;
+            itemState &= ~1;
+          }
+        } else
+        if (c == 0x767E) { // '百'
+          if ((itemState & 6) != 0) {
+            break;
+          } else {
+            itemState |= 4;
+            itemState &= ~1;
+          }
+        } else
+        if (c == 0x5343) { // '千'
+          if ((itemState & 14) != 0) {
+            break;
+          } else {
+            itemState |= 8;
+            itemState &= ~1;
+          }
+        } else {
+          break;
+        }
+      }
+    }
+    item = item.replace(/_/g, " ");
+    var itemBeginningChar = item.charCodeAt(0);
+    var itemEndingChar = (item.length > 1) ? item.charCodeAt(item.length - 1) : 0;
+    if (bufferEnding == 0) {
+      var itemBeginning;
+      var c = itemBeginningChar;
+      if (c == 0x0020) {
+        itemBeginning = 0;
+      } else
+      if (c == 0x0021
+       || c == 0x002C
+       || c == 0x002E
+       || c == 0x003A
+       || c == 0x003B
+       || c == 0x003F) {
+        itemBeginning = 5;
+      } else
+      if (c == 0x3001
+       || c == 0x3002
+       || c == 0xFF01
+       || c == 0xFF0C
+       || c == 0xFF0E
+       || c == 0xFF1A
+       || c == 0xFF1B
+       || c == 0xFF1F) {
+        itemBeginning = 6;
+      } else {
+        itemBeginning = 7;
+      }
+      if (itemBeginning == 0
+       || itemBeginning == 5
+       || itemBeginning == 6) {
+        if (buffer.length > 0) {
+          buffer = buffer.substr(0, buffer.length - 1);
+        }
+      }
+    } else {
+      var itemBeginning;
+      var c = itemBeginningChar;
+      if (c == 0x0020) {
+        itemBeginning = 0;
+      } else
+      if (c >= 0x0041 && c <= 0x005A
+       || c >= 0x0061 && c <= 0x007A
+       || c >= 0x0100 && c <= 0x0DFF
+       || c >= 0x0E60 && c <= 0x01FF) {
+        itemBeginning = 1;
+      } else
+      if (c >= 0xFF21 && c <= 0xFF3A
+       || c >= 0xFF41 && c <= 0xFF5A) {
+        itemBeginning = 2;
+      } else
+      if (c >= 0x0030 && c <= 0x0039) {
+        itemBeginning = (bufferEnding == 8 && itemEndingChar == 0) ? 8 : 3;
+      } else
+      if (c >= 0xFF10 && c <= 0xFF19) {
+        itemBeginning = (bufferEnding == 9 && itemEndingChar == 0) ? 9 : 4;
+      } else
+      if (c == 0x0021
+       || c == 0x002C
+       || c == 0x002E
+       || c == 0x003A
+       || c == 0x003B
+       || c == 0x003F) {
+        itemBeginning = 5;
+      } else
+      if (c == 0x3001
+       || c == 0x3002
+       || c == 0xFF01
+       || c == 0xFF0C
+       || c == 0xFF0E
+       || c == 0xFF1A
+       || c == 0xFF1B
+       || c == 0xFF1F) {
+        itemBeginning = 6;
+      } else {
+        itemBeginning = 7;
+      }
+      if (itemBeginning == 1 || bufferEnding == 1 && (itemBeginning == 2
+                                                   || itemBeginning == 3
+                                                   || itemBeginning == 4
+                                                   || itemBeginning == 7)
+                             || bufferEnding == 2 && (itemBeginning == 2)
+                             || bufferEnding == 3 && (itemBeginning == 3
+                                                   || itemBeginning == 4)
+                             || bufferEnding == 4 && (itemBeginning == 3
+                                                   || itemBeginning == 4)
+                             || bufferEnding == 5 && (itemBeginning == 2
+                                                   || itemBeginning == 3
+                                                   || itemBeginning == 4
+                                                   || itemBeginning == 7)
+                             || bufferEnding == 8 && (itemBeginning == 3
+                                                   || itemBeginning == 4)
+                             || bufferEnding == 9 && (itemBeginning == 3
+                                                   || itemBeginning == 4)) {
+        buffer += " ";
+      }
+    }
+    buffer += item;
+    c = (itemEndingChar == 0) ? itemBeginningChar : itemEndingChar;
+    if (c == 0x0020) {
+      bufferEnding = 0;
+    } else
+    if (c >= 0x0041 && c <= 0x005A
+     || c >= 0x0061 && c <= 0x007A
+     || c >= 0x0100 && c <= 0x0DFF
+     || c >= 0x0E60 && c <= 0x01FF) {
+      bufferEnding = 1;
+    } else
+    if (c >= 0xFF21 && c <= 0xFF3A
+     || c >= 0xFF41 && c <= 0xFF5A) {
+      bufferEnding = 2;
+    } else
+    if (c >= 0x0030 && c <= 0x0039) {
+      bufferEnding = (itemEndingChar == 0) ? 8 : 3;
+    } else
+    if (c >= 0xFF10 && c <= 0xFF19) {
+      bufferEnding = (itemEndingChar == 0) ? 9 : 4;
+    } else
+    if (c == 0x0021
+     || c == 0x002C
+     || c == 0x002E
+     || c == 0x003A
+     || c == 0x003B
+     || c == 0x003F) {
+      bufferEnding = 5;
+    } else
+    if (c == 0x3001
+     || c == 0x3002
+     || c == 0xFF01
+     || c == 0xFF0C
+     || c == 0xFF0E
+     || c == 0xFF1A
+     || c == 0xFF1B
+     || c == 0xFF1F) {
+      bufferEnding = 6;
+    } else {
+      bufferEnding = 7;
+    }
+  }
+  // -->
+  // 音声認識サーバへの接続処理が開始した時に呼び出されます。
+  function connectStarted() {
+    log_(this.name, "EVENT: connectStarted()");
+  }
+
+  // 音声認識サーバへの接続処理が完了した時に呼び出されます。
+  function connectEnded() {
+    log_(this.name, "EVENT: connectEnded()");
+  }
+
+  // 音声認識サーバからの切断処理が開始した時に呼び出されます。
+  function disconnectStarted() {
+    log_(this.name, "EVENT: disconnectStarted()");
+  }
+
+  // 音声認識サーバからの切断処理が完了した時に呼び出されます。
+  function disconnectEnded() {
+    log_(this.name, "EVENT: disconnectEnded()");
+    // ボタンの制御
+    resumePauseButton.innerHTML = "書き起こしの開始";
+    resumePauseButton.disabled = false;
+    resumePauseButton.classList.remove("sending");
+    //　★★追加
+    estart1.style.background = '#e6ec88';
+    estart1.textContent = "書き起こし開始";
+    tm2 = tm2 + 1;
+  }
+
+  // 音声認識サーバへの音声データの供給開始処理が開始した時に呼び出されます。
+  function feedDataResumeStarted() {
+    log_(this.name, "EVENT: feedDataResumeStarted()");
+  }
+
+  // 音声認識サーバへの音声データの供給開始処理が完了した時に呼び出されます。
+  function feedDataResumeEnded() {
+    log_(this.name, "EVENT: feedDataResumeEnded()");
+    // ボタンの制御
+    resumePauseButton.innerHTML = "音声データの<br>録音中...<br><br><span class=\"supplement\">クリック → &nbsp; 録音の停止</span>";
+    resumePauseButton.disabled = false;
+    resumePauseButton.classList.add("sending");
+    //　★★追加
+    estart1.style.background = 'pink';
+    estart1.style.border = '1px solid gray';
+    estart1.textContent = "書き起こし停止";
+    tm2 = tm2 + 1;
+  }
+
+  // 音声認識サーバへの音声データの供給終了処理が開始した時に呼び出されます。
+  function feedDataPauseStarted() {
+    log_(this.name, "EVENT: feedDataPauseStarted()");
+  }
+
+  // 音声認識サーバへの音声データの供給終了処理が完了した時に呼び出されます。
+  function feedDataPauseEnded(reason) {
+    log_(this.name, "EVENT: feedDataPauseEnded(): reason[code[" + reason.code + "] message[" + reason.message + "]]");
+  }
+
+  // 発話区間の始端が検出された時に呼び出されます。
+  function utteranceStarted(startTime) {
+    log_(this.name, "EVENT: utteranceStarted(): endTime[" + startTime + "]");
+  }
+
+  // 発話区間の終端が検出された時に呼び出されます。
+  function utteranceEnded(endTime) {
+    log_(this.name, "EVENT: utteranceEnded(): endTime[" + endTime + "]");
+  }
+
+  // 認識処理が開始された時に呼び出されます。
+  function resultCreated() {
+    log_(this.name, "EVENT: resultCreated()");
+    this.recognitionResultText.innerHTML = "...";
+    this.recognitionResultInfo.innerHTML = "";
+    this.time2 = new Date().getTime();
+  }
+
+  // 認識処理中に呼び出されます。
+  function resultUpdated(result) {
+    log_(this.name, "EVENT: resultUpdated(): result[" + result + "]");
+    try {
+      var json = JSON.parse(result);
+      buffer = (json.text) ? sanitize_(json.text) : "...";
+    } catch (e) {
+      if (result.indexOf("\x01") == -1) {
+        buffer = (result) ? sanitize_(result) : "...";
+      } else {
+        var fields = result.split("\x01");
+        var fields0 = fields[0].split("|");
+        // <!--
+        buffer = "";
+        bufferEnding = 0;
+        // -->
+        var i, j;
+        for (i = 0; i < fields0.length; i++) {
+          var written = fields0[i];
+          if ((j = written.indexOf(" ")) != -1) {
+            written = written.slice(0, j);
+          }
+          if ((j = written.indexOf(":")) != -1) {
+            written = written.slice(0, j);
+          }
+          if ((j = written.indexOf("\x03")) != -1) {
+            written = written.slice(0, j);
+          }
+          // <!--
+          append_(written);
+          // -->
+        }
+        buffer = (buffer) ? sanitize_(buffer) : "...";
+      }
+    }
+    this.recognitionResultText.innerHTML = buffer;
+    skaram.scrollTo(0, skaram.scrollHeight);
+  }
+
+  // 認識処理が確定した時に呼び出されます。
+  function resultFinalized(result) {
+    log_(this.name, "EVENT: (): result[" + result + "]");
+    this.time0 = 0;
+    this.time2 = new Date().getTime() - this.time2;
+    this.confidence = -1.0;
+    try {
+      var json = JSON.parse(result);
+      buffer = (json.text) ? sanitize_(json.text) : (json.code != 'o' && json.message) ? "<font color=\"gray\">(" + json.message + ")</font>" : "<font color=\"gray\"></font>";
+      if (json.results && json.results[0]) {
+        if (this.time0 == 0) {
+          this.time0 = json.results[0].endtime;
+        }
+        this.confidence = json.results[0].confidence;
+      }
+    } catch (e) {
+      if (result.indexOf("\x01") == -1) {
+        buffer = (result) ? sanitize_(result) : "<font color=\"gray\"></font>";
+      } else {
+        var fields = result.split("\x01");
+        var fields0 = fields[0].split("|");
+        // <!--
+        buffer = "";
+        bufferEnding = 0;
+        // -->
+        var i, j;
+        for (i = 0; i < fields0.length; i++) {
+          var written = fields0[i];
+          if ((j = written.indexOf(" ")) != -1) {
+            written = written.slice(0, j);
+          }
+          if ((j = written.indexOf(":")) != -1) {
+            written = written.slice(0, j);
+          }
+          if ((j = written.indexOf("\x03")) != -1) {
+            written = written.slice(0, j);
+          }
+          // <!--
+          append_(written);
+          // -->
+        }
+        buffer = (buffer) ? sanitize_(buffer) : "<font color=\"gray\"></font>";
+        if (this.time0 == 0) {
+          this.time0 = parseInt(fields[2].split("-")[1]);
+        }
+        this.confidence = parseFloat(fields[1]);
+      }
+    }
+    var rt = ((this.time0 > 0) ? (this.time2 / this.time0).toFixed(2) : "-") + " (" + (this.time2 / 1000).toFixed(2) + "/" + ((this.time0 > 0) ? (this.time0 / 1000).toFixed(2) : "-") + ")";
+    var cf = (this.confidence >= 0.0) ? this.confidence.toFixed(2) : "-";
+    this.recognitionResultText.innerHTML = buffer;
+    this.recognitionResultInfo.innerHTML = "RT: " + rt + "<br>CF: " + cf;
+    log_(this.name, buffer + " <font color=\"darkgray\">(RT: " + rt + ") (CF: " + cf + ")</font>");
+    //// ★★新しい音声認識結果を、配列に追加し、編集欄に表示。編集欄の一番下にスクロール。
+    recognitionResultTextArray.push(buffer + "<br>");
+    // console.log("ARRAY:" + recognitionResultTextArray);
+    karam.insertAdjacentHTML('beforeend',buffer + "<br>");
+    karam.scrollTo(0, karam.scrollHeight);
+    ///////////////////////////////////////////////////////////////////////////////
+  }
+
+  // メッセージの出力が要求された時に呼び出されます。
+  function TRACE(message) {
+    log_(this.name || "", message);
+  }
+
+  // 画面要素の取得
+  var issuerURL = document.getElementById("issuerURL");
+  var sid = document.getElementById("sid");
+  var spw = document.getElementById("spw");
+  var epi = document.getElementById("epi");
+  var issueButton = document.getElementById("issueButton");
+  var grammarFileNames = document.getElementsByClassName("grammarFileNames");
+  var recognitionResultText = document.getElementsByClassName("recognitionResultText");
+  var recognitionResultInfo = document.getElementsByClassName("recognitionResultInfo");
+
+
+  // 画面要素の初期化
+  issuerURL.value = "https://acp-api.amivoice.com/issue_service_authorization";
+  serverURL.value = "wss://acp-api.amivoice.com/v1/";
+  /////////////////////////////////////////////////////////////////////////
+  grammarFileNames[0].value = Wrp.grammarFileNames;
+  mode.value = Wrp.mode;
+  profileId.value = Wrp.profileId;
+  profileWords.value = Wrp.profileWords;
+  segmenterType.value = Wrp.segmenterType;
+  segmenterProperties.value = Wrp.segmenterProperties;
+  resultUpdatedInterval.value = Wrp.resultUpdatedInterval;
+  extension.value = Wrp.extension;
+  authorization.value = Wrp.authorization;
+  codec.value = Wrp.codec;
+  resultType.value = Wrp.resultType;
+  checkIntervalTime.value = Wrp.checkIntervalTime;
+  maxRecordingTime.value = Recorder.maxRecordingTime;
+
+  // 音声認識ライブラリのプロパティ要素の設定
+  Wrp.serverURLElement = serverURL;
+  Wrp.grammarFileNamesElement = grammarFileNames[0];
+  Wrp.modeElement = mode;
+  Wrp.profileIdElement = profileId;
+  Wrp.profileWordsElement = profileWords;
+  Wrp.segmenterTypeElement = segmenterType;
+  Wrp.segmenterPropertiesElement = segmenterProperties;
+  Wrp.resultUpdatedIntervalElement = resultUpdatedInterval;
+  Wrp.extensionElement = extension;
+  Wrp.authorizationElement = authorization;
+  Wrp.codecElement = codec;
+  Wrp.resultTypeElement = resultType;
+  Wrp.checkIntervalTimeElement = checkIntervalTime;
+  Wrp.issuerURLElement = issuerURL;
+  Wrp.sidElement = sid;
+  Wrp.spwElement = spw;
+  Wrp.epiElement = epi;
+  Wrp.name = "";
+  Wrp.recognitionResultText = recognitionResultText[0];
+  Wrp.recognitionResultInfo = recognitionResultInfo[0];
+
+  // 音声認識ライブラリのイベントハンドラの設定
+  Wrp.connectStarted = connectStarted;
+  Wrp.connectEnded = connectEnded;
+  Wrp.disconnectStarted = disconnectStarted;
+  Wrp.disconnectEnded = disconnectEnded;
+  Wrp.feedDataResumeStarted = feedDataResumeStarted;
+  Wrp.feedDataResumeEnded = feedDataResumeEnded;
+  Wrp.feedDataPauseStarted = feedDataPauseStarted;
+  Wrp.feedDataPauseEnded = feedDataPauseEnded;
+  Wrp.utteranceStarted = utteranceStarted;
+  Wrp.utteranceEnded = utteranceEnded;
+  Wrp.resultCreated = resultCreated;
+  Wrp.resultUpdated = resultUpdated;
+  Wrp.resultFinalized = resultFinalized;
+  Wrp.TRACE = TRACE;
+
+  // 録音ライブラリのプロパティ要素の設定
+  Recorder.maxRecordingTimeElement = maxRecordingTime;
+
+  // 音声認識ライブラリ／録音ライブラリのメソッドの画面要素への登録
+  resumePauseButton.onclick = function() {
+    // 音声認識サーバへの音声データの供給中かどうかのチェック
+    if (Wrp.isActive()) {
+      // 音声認識サーバへの音声データの供給中の場合...
+      // 音声認識サーバへの音声データの供給の停止
+      Wrp.feedDataPause();
+
+     
+      // ボタンの制御
+      resumePauseButton.disabled = true;
+
+    } else {
+      // 音声認識サーバへの音声データの供給中でない場合...
+      // グラマファイル名が指定されているかどうかのチェック
+      if (Wrp.grammarFileNamesElement.value != "") {
+        // グラマファイル名が指定されている場合...
+        // 音声認識サーバへの音声データの供給の開始
+        Wrp.feedDataResume();
+
+        // ボタンの制御
+        resumePauseButton.disabled = true;
+
+      } else {
+        // グラマファイル名が指定されていない場合...
+        // (何もしない)
+      }
+    }
+  };
+    
+  issueButton.onclick = Wrp.issue;
+ 
+
+  var issue_options = document.querySelectorAll(".issue_options");
+  function toggle_issue_options() {
+    issue_options[0].style.display = (issue_options[0].style.display === "") ? "none" : "";
+    for (var i = 1; i < issue_options.length; i++) {
+      issue_options[i].style.display = issue_options[0].style.display;
+    }
+  }
+  var toggle_issue_optionss = document.querySelectorAll(".toggle_issue_options");
+  for (var i = 0; i < toggle_issue_optionss.length; i++) {
+    toggle_issue_optionss[i].onclick = toggle_issue_options;
+    toggle_issue_optionss[i].style.cursor = "pointer";
+  }
+
+  var options = document.querySelectorAll(".options");
+  function toggle_options() {
+    options[0].style.display = (options[0].style.display === "") ? "none" : "";
+    for (var i = 1; i < options.length; i++) {
+      options[i].style.display = options[0].style.display;
+    }
+  }
+  var toggle_optionss = document.querySelectorAll(".toggle_options");
+  for (var i = 0; i < toggle_optionss.length; i++) {
+    toggle_optionss[i].onclick = toggle_options;
+    toggle_optionss[i].style.cursor = "pointer";
+  }
+
+  // version.innerHTML = Wrp.version;
+  version.innerHTML = "Hm1.2.01";
+})();
+</script>
+
+</body>
+</html>
